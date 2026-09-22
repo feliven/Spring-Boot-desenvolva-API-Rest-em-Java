@@ -36,9 +36,7 @@ public class MedicoController {
 
         System.out.println(json);
 
-        Medico medico = new Medico(null,
-                json.nome(), json.especialidade(), json.numeroCrm(), json.enderecoEmail(),
-                json.numeroTelefone(), json.endereco());
+        Medico medico = new Medico(json);
 
         medicoRepository.save(medico);
         return medico;
