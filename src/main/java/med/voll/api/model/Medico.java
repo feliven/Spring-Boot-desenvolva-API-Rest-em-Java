@@ -1,6 +1,7 @@
 package med.voll.api.model;
 
 public class Medico {
+    Long id;
     String nome;
     Especialidade especialidade;
     int numeroCrm;
@@ -10,4 +11,5 @@ public class Medico {
 
     public Medico() {
     }
+
 }
