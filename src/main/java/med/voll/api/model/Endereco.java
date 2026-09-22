@@ -1,53 +1,29 @@
 package med.voll.api.model;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Embeddable
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Endereco {
-    String logradouro;
-    String numeroEndereco;
-    String complementoEndereco;
-    String cidade;
-    SiglaUf siglaUf;
-    String cep;
-
-    public Endereco() {
-    }
-
-    public Endereco(String logradouro, String numeroEndereco, String complementoEndereco,
-            String cidade, SiglaUf siglaUf, String cep) {
-        this.logradouro = logradouro;
-        this.numeroEndereco = numeroEndereco;
-        this.complementoEndereco = complementoEndereco;
-        this.cidade = cidade;
-        this.siglaUf = siglaUf;
-        this.cep = cep;
-    }
-
-    public String getLogradouro() {
-        return logradouro;
-    }
-
-    public String getNumeroEndereco() {
-        return numeroEndereco;
-    }
-
-    public String getComplementoEndereco() {
-        return complementoEndereco;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public SiglaUf getSiglaUf() {
-        return siglaUf;
-    }
-
-    public String getCep() {
-        return cep;
-    }
+    private String logradouro;
+    private String numeroEndereco;
+    private String complementoEndereco;
+    private String cidade;
+    @Enumerated(EnumType.STRING)
+    private SiglaUf siglaUf;
+    private String cep;
 
     @Override
     public String toString() {
-        return "Endereco [logradouro=" + logradouro + ", numeroEndereco=" + numeroEndereco + ", complementoEndereco="
-                + complementoEndereco + ", cidade=" + cidade + ", siglaUf=" + siglaUf + ", cep=" + cep + "]";
+        return "Endereco [logradouro=" + logradouro + ", numeroEndereco=" + numeroEndereco
+                + ", complementoEndereco=" + complementoEndereco + ", cidade=" + cidade
+                + ", siglaUf=" + siglaUf + ", cep=" + cep + "]";
     }
 }
