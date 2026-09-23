@@ -1,5 +1,6 @@
 package med.voll.api.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,7 +28,9 @@ public class Medico {
     private String nome;
     @Enumerated(EnumType.STRING)
     private Especialidade especialidade;
+    @Column(unique = true)
     private int numeroCrm;
+    @Column(unique = true)
     private String enderecoEmail;
     private String numeroTelefone;
     @Embedded
