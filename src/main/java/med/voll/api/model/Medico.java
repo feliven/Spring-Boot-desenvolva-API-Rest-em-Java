@@ -14,6 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import med.voll.api.dto.MedicoCreateDto;
+import med.voll.api.dto.MedicoUpdateDto;
 
 @Entity
 @Table(name = "medicos")
@@ -43,6 +44,19 @@ public class Medico {
         this.enderecoEmail = medicoDto.enderecoEmail();
         this.numeroTelefone = medicoDto.numeroTelefone();
         this.endereco = new Endereco(medicoDto.endereco());
+    }
+
+    public void atualizarCadastro(MedicoUpdateDto dados) {
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+        if (dados.numeroTelefone() != null) {
+            this.numeroTelefone = dados.numeroTelefone();
+        }
+        if (dados.endereco() != null) {
+            this.endereco.atualizarEndereco(dados.endereco());
+        }
+
     }
 
     @Override

@@ -35,6 +35,36 @@ public class Endereco {
         this.cep = enderecoDto.cep();
     }
 
+    public void atualizarEndereco(EnderecoDto dados) {
+        if (dados.logradouro() != null) {
+            this.logradouro = dados.logradouro();
+        }
+
+        if (dados.numeroEndereco() != null) {
+            this.numeroEndereco = dados.numeroEndereco();
+        }
+
+        if (dados.complementoEndereco() != null) {
+            this.complementoEndereco = dados.complementoEndereco();
+        }
+
+        if (dados.bairro() != null) {
+            this.bairro = dados.bairro();
+        }
+
+        if (dados.cidade() != null) {
+            this.cidade = dados.cidade();
+        }
+
+        if (dados.siglaUf() != null) {
+            this.siglaUf = dados.siglaUf();
+        }
+
+        if (dados.cep() != null) {
+            this.cep = dados.cep();
+        }
+    }
+
     @Override
     public String toString() {
         return "Endereco [logradouro=" + logradouro + ", numeroEndereco=" + numeroEndereco

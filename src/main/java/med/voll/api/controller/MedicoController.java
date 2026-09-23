@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import med.voll.api.dto.MedicoCreateDto;
 import med.voll.api.dto.MedicoReadDto;
+import med.voll.api.dto.MedicoUpdateDto;
 import med.voll.api.model.Medico;
 import med.voll.api.repository.MedicoRepository;
 
@@ -50,5 +52,18 @@ public class MedicoController {
         });
 
         return json.size() + " médicos cadastrados";
+    }
+
+    @PutMapping
+    public String atualizarMedico(@RequestBody @Valid MedicoUpdateDto json) {
+        var medico = medicoRepository.findById(json.id());
+
+        try {
+            medico.get().atualizarCadastro(json);
+            medicoRepository.save(medico.get());
+            return json.toString();
+        } catch (Exception e) {
+            return "Erro ao atualizar perfil do médico: " + e.getLocalizedMessage();
+        }
     }
 }
