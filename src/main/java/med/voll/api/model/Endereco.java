@@ -7,6 +7,7 @@ import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import med.voll.api.dto.EnderecoDto;
 
 @Embeddable
 @Getter
@@ -23,6 +24,16 @@ public class Endereco {
     @Enumerated(EnumType.STRING)
     private SiglaUf siglaUf;
     private String cep;
+
+    public Endereco(EnderecoDto enderecoDto) {
+        this.logradouro = enderecoDto.logradouro();
+        this.numeroEndereco = enderecoDto.numeroEndereco();
+        this.complementoEndereco = enderecoDto.complementoEndereco();
+        this.bairro = enderecoDto.bairro();
+        this.cidade = enderecoDto.cidade();
+        this.siglaUf = enderecoDto.siglaUf();
+        this.cep = enderecoDto.cep();
+    }
 
     @Override
     public String toString() {

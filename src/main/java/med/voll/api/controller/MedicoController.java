@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import med.voll.api.dto.MedicoDto;
 import med.voll.api.model.Medico;
 import med.voll.api.repository.MedicoRepository;
@@ -28,11 +29,17 @@ public class MedicoController {
 
         medicoRepository.findAll().forEach(medico -> medicos.add(medico));
 
-        return medicos.toString();
+        String medicosString = "";
+
+        for (int i = 0; i < medicos.size(); i++) {
+            medicosString += medicos.get(i) + System.lineSeparator();
+        }
+
+        return medicosString;
     }
 
     @PostMapping
-    public Medico cadastrarMedico(@RequestBody MedicoDto json) {
+    public Medico cadastrarMedico(@RequestBody @Valid MedicoDto json) {
 
         System.out.println(json);
 

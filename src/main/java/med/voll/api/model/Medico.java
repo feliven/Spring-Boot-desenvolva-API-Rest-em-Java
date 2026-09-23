@@ -29,7 +29,7 @@ public class Medico {
     @Enumerated(EnumType.STRING)
     private Especialidade especialidade;
     @Column(unique = true)
-    private int numeroCrm;
+    private Integer numeroCrm;
     @Column(unique = true)
     private String enderecoEmail;
     private String numeroTelefone;
@@ -42,7 +42,7 @@ public class Medico {
         this.numeroCrm = medicoDto.numeroCrm();
         this.enderecoEmail = medicoDto.enderecoEmail();
         this.numeroTelefone = medicoDto.numeroTelefone();
-        this.endereco = medicoDto.endereco();
+        this.endereco = new Endereco(medicoDto.endereco());
     }
 
     @Override
