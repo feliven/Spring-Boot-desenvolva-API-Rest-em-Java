@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import med.voll.api.model.Especialidade;
 
-public record MedicoDto(
+public record MedicoCreateDto(
         @NotBlank String nome,
         @NotNull Especialidade especialidade,
         @NotNull Integer numeroCrm,

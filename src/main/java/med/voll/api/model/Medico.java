@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.dto.MedicoDto;
+import med.voll.api.dto.MedicoCreateDto;
 
 @Entity
 @Table(name = "medicos")
@@ -36,7 +36,7 @@ public class Medico {
     @Embedded
     private Endereco endereco;
 
-    public Medico(MedicoDto medicoDto) {
+    public Medico(MedicoCreateDto medicoDto) {
         this.nome = medicoDto.nome();
         this.especialidade = medicoDto.especialidade();
         this.numeroCrm = medicoDto.numeroCrm();

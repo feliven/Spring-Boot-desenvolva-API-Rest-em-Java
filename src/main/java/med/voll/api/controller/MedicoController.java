@@ -1,6 +1,5 @@
 package med.voll.api.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import med.voll.api.dto.MedicoDto;
+import med.voll.api.dto.MedicoCreateDto;
+import med.voll.api.dto.MedicoReadDto;
 import med.voll.api.model.Medico;
 import med.voll.api.repository.MedicoRepository;
 
@@ -23,28 +23,15 @@ public class MedicoController {
     private MedicoRepository medicoRepository;
 
     @GetMapping
-    public String listarMedicos() {
+    public List<MedicoReadDto> listarMedicos() {
 
-        List<Medico> medicos = new ArrayList<Medico>();
-
-        medicoRepository.findAll().forEach(medico -> medicos.add(medico));
-
-        String medicosString = "";
-
-        for (int i = 0; i < medicos.size(); i++) {
-            medicosString += medicos.get(i) + System.lineSeparator();
-        }
-
-        return medicosString;
+        return medicoRepository.findAll().stream().map(MedicoReadDto::new).toList();
     }
 
     @PostMapping
-    public Medico cadastrarMedico(@RequestBody @Valid MedicoDto json) {
-
-        System.out.println(json);
+    public Medico cadastrarMedico(@RequestBody @Valid MedicoCreateDto json) {
 
         Medico medico = new Medico(json);
-
         medicoRepository.save(medico);
         return medico;
     }
