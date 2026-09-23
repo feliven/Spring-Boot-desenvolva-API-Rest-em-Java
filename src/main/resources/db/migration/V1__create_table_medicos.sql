@@ -8,7 +8,6 @@ create table medicos(
     logradouro varchar(100) not null,
     numero_endereco varchar(20),
     complemento_endereco varchar(100),
-    bairro varchar(100) not null,
     cidade varchar(100) not null,
     sigla_uf char(2) not null,
     cep varchar(9) not null,

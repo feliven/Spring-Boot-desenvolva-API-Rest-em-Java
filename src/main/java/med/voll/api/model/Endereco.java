@@ -19,7 +19,6 @@ public class Endereco {
     private String numeroEndereco;
     @Column(nullable = true)
     private String complementoEndereco;
-    private String bairro;
     private String cidade;
     @Enumerated(EnumType.STRING)
     private SiglaUf siglaUf;
@@ -29,7 +28,6 @@ public class Endereco {
         this.logradouro = enderecoDto.logradouro();
         this.numeroEndereco = enderecoDto.numeroEndereco();
         this.complementoEndereco = enderecoDto.complementoEndereco();
-        this.bairro = enderecoDto.bairro();
         this.cidade = enderecoDto.cidade();
         this.siglaUf = enderecoDto.siglaUf();
         this.cep = enderecoDto.cep();
@@ -38,7 +36,7 @@ public class Endereco {
     @Override
     public String toString() {
         return "Endereco [logradouro=" + logradouro + ", numeroEndereco=" + numeroEndereco
-                + ", complementoEndereco=" + complementoEndereco + ", bairro=" + bairro
+                + ", complementoEndereco=" + complementoEndereco
                 + ", cidade=" + cidade + ", siglaUf=" + siglaUf + ", cep=" + cep + "]";
     }
 }
