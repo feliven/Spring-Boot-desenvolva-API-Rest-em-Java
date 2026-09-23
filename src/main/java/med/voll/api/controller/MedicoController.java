@@ -1,5 +1,7 @@
 package med.voll.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +20,7 @@ import med.voll.api.model.Medico;
 import med.voll.api.repository.MedicoRepository;
 
 @RestController
-@RequestMapping("/medicos")
+@RequestMapping("medicos")
 public class MedicoController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class MedicoController {
 
     @GetMapping
     public Page<MedicoReadDto> listarMedicos(
-            @PageableDefault(size = 3, sort = { "numeroCrm" }, direction = Direction.DESC) Pageable paginacao) {
+            @PageableDefault(size = 15, sort = { "numeroCrm" }, direction = Direction.DESC) Pageable paginacao) {
 
         return medicoRepository.findAll(paginacao).map(MedicoReadDto::new);
     }
@@ -37,5 +39,16 @@ public class MedicoController {
         Medico medico = new Medico(json);
         medicoRepository.save(medico);
         return medico;
+    }
+
+    @PostMapping("batch")
+    public String cadastrarVariosMedicos(@RequestBody @Valid List<MedicoCreateDto> json) {
+
+        json.forEach(dto -> {
+            Medico medico = new Medico(dto);
+            medicoRepository.save(medico);
+        });
+
+        return json.size() + " médicos cadastrados";
     }
 }
