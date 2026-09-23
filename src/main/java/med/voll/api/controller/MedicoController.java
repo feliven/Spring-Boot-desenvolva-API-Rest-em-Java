@@ -56,14 +56,8 @@ public class MedicoController {
 
     @PutMapping
     public String atualizarMedico(@RequestBody @Valid MedicoUpdateDto json) {
-        var medico = medicoRepository.findById(json.id());
-
-        try {
-            medico.get().atualizarCadastro(json);
-            medicoRepository.save(medico.get());
-            return json.toString();
-        } catch (Exception e) {
-            return "Erro ao atualizar perfil do médico: " + e.getLocalizedMessage();
-        }
+        var medico = medicoRepository.getReferenceById(json.id());
+        medico.atualizarCadastro(json);
+        return "👍";
     }
 }
