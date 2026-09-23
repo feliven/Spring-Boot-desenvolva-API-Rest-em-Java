@@ -26,6 +26,7 @@ public class Medico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Boolean ativo;
     private String nome;
     @Enumerated(EnumType.STRING)
     private Especialidade especialidade;
@@ -38,6 +39,7 @@ public class Medico {
     private Endereco endereco;
 
     public Medico(MedicoCreateDto medicoDto) {
+        this.ativo = true;
         this.nome = medicoDto.nome();
         this.especialidade = medicoDto.especialidade();
         this.numeroCrm = medicoDto.numeroCrm();
@@ -56,7 +58,10 @@ public class Medico {
         if (dados.endereco() != null) {
             this.endereco.atualizarEndereco(dados.endereco());
         }
+    }
 
+    public void excluirCadastro() {
+        this.ativo = false;
     }
 
     @Override

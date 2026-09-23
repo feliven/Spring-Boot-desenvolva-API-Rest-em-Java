@@ -34,7 +34,7 @@ public class MedicoController {
     public Page<MedicoReadDto> listarMedicos(
             @PageableDefault(size = 15, sort = { "numeroCrm" }, direction = Direction.DESC) Pageable paginacao) {
 
-        return medicoRepository.findAll(paginacao).map(MedicoReadDto::new);
+        return medicoRepository.findAllByAtivoTrue(paginacao).map(MedicoReadDto::new);
     }
 
     @GetMapping("{id}")
@@ -66,12 +66,15 @@ public class MedicoController {
     public String atualizarMedico(@RequestBody @Valid MedicoUpdateDto json) {
         var medico = medicoRepository.getReferenceById(json.id());
         medico.atualizarCadastro(json);
+        medicoRepository.save(medico);
         return "👍";
     }
 
     @DeleteMapping("{id}")
     public String excluirMedico(@PathVariable Long id) {
-        medicoRepository.deleteById(id);
-        return "🚮";
+        var medico = medicoRepository.getReferenceById(id);
+        medico.excluirCadastro();
+        medicoRepository.save(medico);
+        return "🚫";
     }
 }
