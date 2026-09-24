@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.validation.Valid;
 import med.voll.api.dto.MedicoCreateDto;
+import med.voll.api.dto.MedicoDetailsDto;
 import med.voll.api.dto.MedicoReadDto;
 import med.voll.api.dto.MedicoUpdateDto;
 import med.voll.api.model.Medico;
@@ -31,50 +34,56 @@ public class MedicoController {
     private MedicoRepository medicoRepository;
 
     @GetMapping
-    public Page<MedicoReadDto> listarMedicos(
+    public ResponseEntity<Page<MedicoReadDto>> listarMedicos(
             @PageableDefault(size = 15, sort = { "numeroCrm" }, direction = Direction.DESC) Pageable paginacao) {
-
-        return medicoRepository.findAllByAtivoTrue(paginacao).map(MedicoReadDto::new);
+        var pagina = medicoRepository.findAllByAtivoTrue(paginacao).map(MedicoReadDto::new);
+        return ResponseEntity.ok(pagina);
     }
 
     @GetMapping("{id}")
-    public String exibirMedico(@PathVariable Long id) {
+    public ResponseEntity<MedicoDetailsDto> exibirMedico(@PathVariable Long id) {
         var medico = medicoRepository.findById(id);
-        return medico.isPresent() ? medico.get().toString() : "Não existe";
+        var dto = new MedicoDetailsDto(medico.get());
+
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public Medico cadastrarMedico(@RequestBody @Valid MedicoCreateDto json) {
+    public ResponseEntity<MedicoDetailsDto> cadastrarMedico(@RequestBody @Valid MedicoCreateDto json,
+            UriComponentsBuilder uriBuilder) {
 
         Medico medico = new Medico(json);
         medicoRepository.save(medico);
-        return medico;
+
+        var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new MedicoDetailsDto(medico));
     }
 
     @PostMapping("batch")
-    public String cadastrarVariosMedicos(@RequestBody @Valid List<MedicoCreateDto> json) {
+    public ResponseEntity<String> cadastrarVariosMedicos(@RequestBody @Valid List<MedicoCreateDto> json) {
 
         json.forEach(dto -> {
             Medico medico = new Medico(dto);
             medicoRepository.save(medico);
         });
 
-        return json.size() + " médicos cadastrados";
+        return ResponseEntity.ok(json.size() + " médicos cadastrados");
     }
 
     @PutMapping
-    public String atualizarMedico(@RequestBody @Valid MedicoUpdateDto json) {
+    public ResponseEntity<MedicoDetailsDto> atualizarMedico(@RequestBody @Valid MedicoUpdateDto json) {
         var medico = medicoRepository.getReferenceById(json.id());
         medico.atualizarCadastro(json);
         medicoRepository.save(medico);
-        return "👍";
+        return ResponseEntity.ok(new MedicoDetailsDto(medico));
     }
 
     @DeleteMapping("{id}")
-    public String excluirMedico(@PathVariable Long id) {
+    public ResponseEntity<String> excluirMedico(@PathVariable Long id) {
         var medico = medicoRepository.getReferenceById(id);
         medico.excluirCadastro();
         medicoRepository.save(medico);
-        return "🚫";
+        return ResponseEntity.noContent().build();
     }
 }
