@@ -1,4 +1,4 @@
-package med.voll.api.model;
+package med.voll.api.domain.endereco;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -7,7 +7,6 @@ import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import med.voll.api.dto.EnderecoDto;
 
 @Embeddable
 @Getter
