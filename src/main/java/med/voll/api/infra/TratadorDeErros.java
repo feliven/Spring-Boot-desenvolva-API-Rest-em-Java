@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,12 +20,15 @@ public class TratadorDeErros {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<erro400Dto>> tratarErro400(MethodArgumentNotValidException e) {
         var erros = e.getFieldErrors().stream()
-                .map(fieldError -> new erro400Dto(fieldError.getField(), fieldError.getDefaultMessage())).toList();
+                .map(erro400Dto::new).toList();
 
         return ResponseEntity.badRequest().body(erros);
     }
 
     private record erro400Dto(String field, String defaultMessage) {
+        erro400Dto(FieldError fieldError) {
+            this(fieldError.getField(), fieldError.getDefaultMessage());
+        }
     }
 
 }
